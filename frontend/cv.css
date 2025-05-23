@@ -1,13 +1,41 @@
 .cv-section {
   min-height: 100vh;
   padding: 2rem 0;
-  background: var(--bg-color);
+  background-color: #ffffff;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Patrón de puntos solo para el fondo del CV */
+.cv-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(#bdbdbd 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+  opacity: 0.7;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  position: relative;
+}
+
+.cv-container {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .loading-container {
@@ -119,6 +147,11 @@
   grid-template-columns: 300px 1fr;
   gap: 2rem;
   padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
 }
 
 .sidebar {
@@ -126,12 +159,14 @@
   border-radius: 0.75rem;
   border: 1px solid var(--border-color);
   padding: 1.5rem;
+  background-color: #ffffff;
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  background-color: #ffffff;
 }
 
 .section {
