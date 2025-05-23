@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Agregar botón para volver arriba
   const scrollToTopButton = document.createElement("button");
-  scrollToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  scrollToTopButton.innerHTML = '<i class="fas fa-home"></i>';
   scrollToTopButton.className = "scroll-to-top";
   scrollToTopButton.style.cssText = `
     position: fixed;
