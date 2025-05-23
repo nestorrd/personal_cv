@@ -6,30 +6,49 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   line-height: 1.5;
-  color: #1d1d1f;
-  background: #f5f5f7;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   overflow-x: hidden;
 }
 
 /* Variables */
 :root {
-  --primary-color: #0066cc;
-  --secondary-color: #0099ff;
+  /* Colores */
+  --primary-color: #1d1d1f;
+  --secondary-color: #424245;
+  --bg-color: #f5f5f7;
+  --card-bg: #ffffff;
   --text-color: #1d1d1f;
-  --text-secondary: #666;
-  --background-color: #f5f5f7;
-  --card-background: #ffffff;
-  --border-color: rgba(0, 0, 0, 0.06);
+  --text-muted: #6e6e73;
+  --border-color: #e5e5e7;
+  --error-color: #ff3b30;
+
+  /* Gradientes */
+  --gradient-primary: linear-gradient(180deg, #000000 0%, #1d1d1f 100%);
+
+  /* Sombras */
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.04);
+
+  /* Bordes */
+  --border-radius: 20px;
+
+  /* Espaciado */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
 }
 
 /* Utilidades */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--spacing-sm);
 }
 
 .hidden {
@@ -46,14 +65,14 @@ body {
   }
 }
 
-@keyframes slideIn {
+@keyframes slideUp {
   from {
-    transform: translateY(20px);
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -63,16 +82,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--bg-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--border-color);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--secondary-color);
 }
 
 /* Estilos de texto */
@@ -101,13 +120,14 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  text-decoration: none;
   cursor: pointer;
+  transition: all 0.3s ease;
   border: none;
-  outline: none;
+  font-size: 1rem;
 }
 
 .btn-primary {
@@ -117,18 +137,21 @@ a:hover {
 
 .btn-primary:hover {
   background: var(--secondary-color);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid var(--primary-color);
   color: var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
   background: var(--primary-color);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 /* Iconos */
@@ -140,13 +163,68 @@ a:hover {
   height: 24px;
 }
 
+/* Language Switch */
+.language-switch {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  z-index: 1000;
+}
+
+.btn-language {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-md);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.btn-language:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-language .language-text {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn-language i {
+  font-size: 1rem;
+}
+
 /* Media queries generales */
 @media (max-width: 768px) {
   .container {
-    padding: 0 16px;
+    padding: 0 var(--spacing-xs);
   }
 
   .btn {
-    padding: 10px 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .language-switch {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+
+  .btn-language {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --border-radius: 16px;
   }
 }

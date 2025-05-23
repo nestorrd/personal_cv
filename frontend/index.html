@@ -20,37 +20,62 @@
     </style>
   </head>
   <body>
+    <div class="language-switch">
+      <button id="languageToggle" class="btn-language">
+        <span class="language-text">EN</span>
+        <i class="fas fa-globe"></i>
+      </button>
+    </div>
+
     <div class="landing-container">
       <div class="landing-content">
         <h1 class="landing-title">Bienvenido a mi Portfolio</h1>
         <p class="landing-subtitle">
           Desarrollador Full Stack & Diseñador UI/UX
         </p>
+        <div class="landing-buttons">
+          <button class="btn btn-primary" onclick="scrollToCV()">
+            Ver mi CV
+          </button>
+          <button class="btn btn-secondary">Contactar</button>
+        </div>
         <div class="scroll-indicator">
           <span>Scroll para ver mi CV</span>
           <i class="fas fa-chevron-down"></i>
         </div>
       </div>
     </div>
-    <div id="cv-section">
+
+    <div id="cv-section" class="cv-section">
       <div class="container">
-        <div id="loading" class="loading">
-          <div class="spinner"></div>
-          <p>Cargando curriculum vitae...</p>
+        <div id="loading" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p class="loading-text">Cargando curriculum vitae...</p>
         </div>
 
-        <div id="error" class="error" style="display: none">
+        <div id="error" class="error-message" style="display: none">
           <h3>Error al cargar el CV</h3>
           <p>
-            No se pudo conectar con el servidor. Asegúrate de que el backend
-            esté funcionando en http://localhost:8080
+            No se pudo conectar con el servidor. Por favor, asegúrate de que:
           </p>
+          <ul>
+            <li>
+              El servidor backend está ejecutándose en http://localhost:8080
+            </li>
+            <li>La API está respondiendo correctamente</li>
+            <li>No hay problemas de red</li>
+          </ul>
+          <button class="btn btn-primary" onclick="fetchCV()">
+            Reintentar
+          </button>
         </div>
 
         <div id="cv-container" style="display: none"></div>
       </div>
     </div>
+
     <script src="landing.js"></script>
     <script src="cv.js"></script>
+    <script src="language.js"></script>
   </body>
 </html>

@@ -112,16 +112,16 @@ func getSampleCV() CV {
 			},
 		},
 		Skills: []Skill{
-			{"JavaScript", 5},
-			{"React", 5},
-			{"Node.js", 4},
-			{"Go", 4},
-			{"TypeScript", 4},
+			{"JavaScript", 90},
+			{"React", 79},
+			{"Node.js", 45},
+			{"Go", 67},
+			{"TypeScript", 100},
 			{"MongoDB", 4},
 			{"PostgreSQL", 3},
-			{"Docker", 3},
-			{"AWS", 3},
-			{"Git", 5},
+			{"Docker", 100},
+			{"AWS", 69},
+			{"Git", 100},
 		},
 		Projects: []Project{
 			{
@@ -144,9 +144,9 @@ func getSampleCV() CV {
 			},
 		},
 		Languages: []Skill{
-			{"Español", 5},
-			{"Inglés", 4},
-			{"Francés", 2},
+			{"Español", 100},
+			{"Inglés", 70},
+			{"Catalán", 100},
 		},
 	}
 }
