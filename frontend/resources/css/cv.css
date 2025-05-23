@@ -206,14 +206,15 @@
   background: var(--card-bg);
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
 }
 
 .skill-item:hover,
 .language-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .skill-name {
@@ -264,15 +265,16 @@
   padding: 1.5rem;
   background: var(--card-bg);
   border-radius: 0.75rem;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   margin-bottom: 1.5rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
 }
 
 .experience-item:hover,
 .education-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .item-header {
@@ -349,7 +351,15 @@
   background: var(--card-bg);
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
+}
+
+.project-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: none;
 }
 
 .project-link {
