@@ -11,65 +11,136 @@
     <link href="styles.css" rel="stylesheet" />
     <link href="landing.css" rel="stylesheet" />
     <link href="cv.css" rel="stylesheet" />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
-    </style>
   </head>
   <body>
-    <div class="language-switch">
-      <button id="languageToggle" class="btn-language">
-        <span class="language-text">EN</span>
-        <i class="fas fa-globe"></i>
+    <!-- Selector de idioma -->
+    <div class="language-switch" id="language-switch">
+      <button
+        type="button"
+        class="language-btn active"
+        data-lang="es"
+        id="btn-es"
+      >
+        ES
+      </button>
+      <button type="button" class="language-btn" data-lang="en" id="btn-en">
+        EN
       </button>
     </div>
 
+    <!-- Landing Page -->
     <div class="landing-container">
       <div class="landing-content">
-        <h1 class="landing-title">Bienvenido a mi Portfolio</h1>
-        <p class="landing-subtitle">
-          Desarrollador Full Stack & Diseñador UI/UX
-        </p>
-        <div class="landing-buttons">
-          <button class="btn btn-primary" onclick="scrollToCV()">
-            Ver mi CV
-          </button>
-          <button class="btn btn-secondary">Contactar</button>
+        <!-- Contenido en español -->
+        <div class="landing-text" data-lang="es" id="content-es">
+          <h1 class="landing-title">Bienvenido a mi Portfolio</h1>
+          <p class="landing-subtitle">
+            Desarrollador Full Stack & Diseñador UI/UX
+          </p>
+          <div class="landing-buttons">
+            <button class="btn btn-primary" onclick="scrollToCV()">
+              Ver mi CV
+            </button>
+            <button class="btn btn-secondary">Contactar</button>
+          </div>
+          <div class="scroll-indicator">
+            <span>Scroll para ver mi CV</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
         </div>
-        <div class="scroll-indicator">
-          <span>Scroll para ver mi CV</span>
-          <i class="fas fa-chevron-down"></i>
+
+        <!-- Contenido en inglés -->
+        <div
+          class="landing-text"
+          data-lang="en"
+          id="content-en"
+          style="display: none"
+        >
+          <h1 class="landing-title">Welcome to my Portfolio</h1>
+          <p class="landing-subtitle">Full Stack Developer & UI/UX Designer</p>
+          <div class="landing-buttons">
+            <button class="btn btn-primary" onclick="scrollToCV()">
+              View my CV
+            </button>
+            <button class="btn btn-secondary">Contact</button>
+          </div>
+          <div class="scroll-indicator">
+            <span>Scroll to view my CV</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- CV Section -->
     <div id="cv-section" class="cv-section">
       <div class="container">
+        <!-- Loading -->
         <div id="loading" class="loading-container">
           <div class="loading-spinner"></div>
-          <p class="loading-text">Cargando curriculum vitae...</p>
+          <p class="loading-text" data-lang="es" id="loading-es">
+            Cargando curriculum vitae...
+          </p>
+          <p
+            class="loading-text"
+            data-lang="en"
+            id="loading-en"
+            style="display: none"
+          >
+            Loading curriculum vitae...
+          </p>
         </div>
 
+        <!-- Error Message -->
         <div id="error" class="error-message" style="display: none">
-          <h3>Error al cargar el CV</h3>
-          <p>
+          <h3 data-lang="es" id="error-title-es">Error al cargar el CV</h3>
+          <h3 data-lang="en" id="error-title-en" style="display: none">
+            Error loading CV
+          </h3>
+          <p data-lang="es" id="error-text-es">
             No se pudo conectar con el servidor. Por favor, asegúrate de que:
           </p>
+          <p data-lang="en" id="error-text-en" style="display: none">
+            Could not connect to the server. Please make sure that:
+          </p>
           <ul>
-            <li>
+            <li data-lang="es" id="error-list-es-1">
               El servidor backend está ejecutándose en http://localhost:8080
             </li>
-            <li>La API está respondiendo correctamente</li>
-            <li>No hay problemas de red</li>
+            <li data-lang="en" id="error-list-en-1" style="display: none">
+              The backend server is running at http://localhost:8080
+            </li>
+            <li data-lang="es" id="error-list-es-2">
+              La API está respondiendo correctamente
+            </li>
+            <li data-lang="en" id="error-list-en-2" style="display: none">
+              The API is responding correctly
+            </li>
+            <li data-lang="es" id="error-list-es-3">No hay problemas de red</li>
+            <li data-lang="en" id="error-list-en-3" style="display: none">
+              There are no network issues
+            </li>
           </ul>
-          <button class="btn btn-primary" onclick="fetchCV()">
+          <button
+            class="btn btn-primary"
+            onclick="fetchCV()"
+            data-lang="es"
+            id="retry-btn-es"
+          >
             Reintentar
+          </button>
+          <button
+            class="btn btn-primary"
+            onclick="fetchCV()"
+            data-lang="en"
+            id="retry-btn-en"
+            style="display: none"
+          >
+            Retry
           </button>
         </div>
 
+        <!-- CV Container -->
         <div id="cv-container" style="display: none"></div>
       </div>
     </div>

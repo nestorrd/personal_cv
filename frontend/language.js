@@ -1,102 +1,107 @@
-// Traducciones
+// Traducciones para el CV
 const translations = {
   es: {
-    landing: {
-      title: "Desarrollador Full Stack",
-      subtitle: "Apasionado por crear soluciones web innovadoras y eficientes",
-      viewCV: "Ver mi CV",
-      contact: "Contactar",
-      scrollText: "Scroll para ver mi CV",
-    },
-    cv: {
-      experience: "Experiencia Profesional",
-      education: "Educación",
-      projects: "Proyectos",
-      skills: "Habilidades",
-      languages: "Idiomas",
-      loading: "Cargando CV...",
-      error: "Error al cargar el CV. Por favor, inténtalo de nuevo.",
-    },
+    experience: "Experiencia Profesional",
+    education: "Educación",
+    projects: "Proyectos",
+    skills: "Habilidades",
+    languages: "Idiomas",
+    loading: "Cargando CV...",
+    error: "Error al cargar el CV. Por favor, inténtalo de nuevo.",
   },
   en: {
-    landing: {
-      title: "Full Stack Developer",
-      subtitle:
-        "Passionate about creating innovative and efficient web solutions",
-      viewCV: "View my CV",
-      contact: "Contact",
-      scrollText: "Scroll to view my CV",
-    },
-    cv: {
-      experience: "Professional Experience",
-      education: "Education",
-      projects: "Projects",
-      skills: "Skills",
-      languages: "Languages",
-      loading: "Loading CV...",
-      error: "Error loading CV. Please try again.",
-    },
+    experience: "Professional Experience",
+    education: "Education",
+    projects: "Projects",
+    skills: "Skills",
+    languages: "Languages",
+    loading: "Loading CV...",
+    error: "Error loading CV. Please try again.",
   },
 };
 
-// Estado del idioma
-let currentLanguage = "es";
-
-// Elementos del DOM
-const languageToggle = document.getElementById("languageToggle");
-const languageText = languageToggle.querySelector(".language-text");
-const scrollText = document.querySelector(".scroll-indicator span");
-
 // Función para cambiar el idioma
-function toggleLanguage() {
-  currentLanguage = currentLanguage === "es" ? "en" : "es";
-  languageText.textContent = currentLanguage.toUpperCase();
-  updateContent();
+function changeLanguage(lang) {
+  console.log("Cambiando idioma a:", lang);
 
-  // Guardar preferencia en localStorage
-  localStorage.setItem("preferredLanguage", currentLanguage);
-}
+  // Actualizar botones
+  document.getElementById("btn-es").classList.toggle("active", lang === "es");
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
 
-// Función para actualizar el contenido
-function updateContent() {
-  const t = translations[currentLanguage];
+  // Actualizar contenido principal
+  document.getElementById("content-es").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("content-en").style.display =
+    lang === "en" ? "" : "none";
 
-  // Actualizar landing page
-  document.querySelector(".landing-content h1").textContent = t.landing.title;
-  document.querySelector(".landing-content p").textContent = t.landing.subtitle;
-  document.querySelector(".btn-primary").textContent = t.landing.viewCV;
-  document.querySelector(".btn-secondary").textContent = t.landing.contact;
+  // Actualizar mensajes de carga
+  document.getElementById("loading-es").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("loading-en").style.display =
+    lang === "en" ? "" : "none";
 
-  // Actualizar scroll indicator
-  scrollText.textContent = t.landing.scrollText;
+  // Actualizar mensajes de error
+  document.getElementById("error-title-es").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("error-title-en").style.display =
+    lang === "en" ? "" : "none";
+  document.getElementById("error-text-es").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("error-text-en").style.display =
+    lang === "en" ? "" : "none";
+  document.getElementById("error-list-es-1").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("error-list-en-1").style.display =
+    lang === "en" ? "" : "none";
+  document.getElementById("error-list-es-2").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("error-list-en-2").style.display =
+    lang === "en" ? "" : "none";
+  document.getElementById("error-list-es-3").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("error-list-en-3").style.display =
+    lang === "en" ? "" : "none";
+  document.getElementById("retry-btn-es").style.display =
+    lang === "es" ? "" : "none";
+  document.getElementById("retry-btn-en").style.display =
+    lang === "en" ? "" : "none";
 
   // Actualizar secciones del CV
   const sections = document.querySelectorAll(".section-title");
   sections.forEach((section) => {
     const key = section.getAttribute("data-section");
-    if (key && t.cv[key]) {
-      section.textContent = t.cv[key];
+    if (key && translations[lang][key]) {
+      const icon = section.querySelector("i");
+      if (icon) {
+        section.innerHTML = `${icon.outerHTML} ${translations[lang][key]}`;
+      } else {
+        section.textContent = translations[lang][key];
+      }
     }
   });
 
-  // Actualizar mensajes de carga y error
-  const loadingText = document.querySelector(".loading-text");
-  if (loadingText) loadingText.textContent = t.cv.loading;
+  // Actualizar el atributo lang del HTML
+  document.documentElement.lang = lang;
 
-  const errorMessage = document.querySelector(".error-message");
-  if (errorMessage) errorMessage.textContent = t.cv.error;
+  // Guardar preferencia
+  localStorage.setItem("preferredLanguage", lang);
 }
 
 // Inicialización
 document.addEventListener("DOMContentLoaded", () => {
-  // Cargar idioma preferido
-  const savedLanguage = localStorage.getItem("preferredLanguage");
-  if (savedLanguage) {
-    currentLanguage = savedLanguage;
-    languageText.textContent = currentLanguage.toUpperCase();
-    updateContent();
-  }
+  console.log("DOM cargado");
 
-  // Añadir event listener al botón
-  languageToggle.addEventListener("click", toggleLanguage);
+  // Cargar idioma preferido o usar español por defecto
+  const savedLanguage = localStorage.getItem("preferredLanguage") || "es";
+
+  // Configurar event listeners para los botones
+  document
+    .getElementById("btn-es")
+    .addEventListener("click", () => changeLanguage("es"));
+  document
+    .getElementById("btn-en")
+    .addEventListener("click", () => changeLanguage("en"));
+
+  // Aplicar el idioma guardado
+  changeLanguage(savedLanguage);
 });
