@@ -44,7 +44,7 @@ log_success "Node.js $(node --version) y npm $(npm --version) disponibles"
 
 # 2. Instalar dependencias globales necesarias
 log_info "Instalando dependencias globales..."
-npm install -g live-server http-server concurrently nodemon --silent
+sudo npm install -g live-server http-server concurrently nodemon --silent
 
 # 3. Verificar Go
 log_info "Verificando Go..."
