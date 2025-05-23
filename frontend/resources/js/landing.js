@@ -1,34 +1,77 @@
 document.addEventListener("DOMContentLoaded", function () {
   const landingSection = document.querySelector(".landing-container");
   const cvSection = document.getElementById("cv-section");
+  const technologiesSection = document.getElementById("technologies-section");
   let isInLanding = true;
   let isScrolling = false;
 
-  // Función para el scroll suave a la sección del CV
-  function scrollToCV() {
+  // Función para actualizar los colores del menú
+  function updateMenuColors() {
+    const menuItems = document.querySelectorAll('.menu-item');
+    const scrollPosition = window.scrollY;
+    
+    // Determinar la sección actual
+    if (scrollPosition < cvSection.offsetTop - 100) {
+      // En la landing page
+      menuItems.forEach(item => item.classList.remove('light', 'dark'));
+      menuItems.forEach(item => item.classList.add('dark'));
+    } else if (scrollPosition < technologiesSection.offsetTop - 100) {
+      // En la sección CV
+      menuItems.forEach(item => item.classList.remove('light', 'dark'));
+      menuItems.forEach(item => item.classList.add('light'));
+    } else {
+      // En la sección de tecnologías
+      menuItems.forEach(item => item.classList.remove('light', 'dark'));
+      menuItems.forEach(item => item.classList.add('light'));
+    }
+  }
+
+  // Función para el scroll suave a cualquier sección
+  function scrollToSection(section) {
     if (isScrolling) return;
     isScrolling = true;
     window.scrollTo({
-      top: cvSection.offsetTop,
+      top: section.offsetTop - 60, // Ajuste para el menú fijo
       behavior: "smooth",
     });
     setTimeout(() => {
       isScrolling = false;
     }, 1000);
+  }
+
+  // Función para el scroll suave a la sección del CV
+  function scrollToCV() {
+    scrollToSection(cvSection);
   }
 
   // Función para el scroll suave a la landing
   function scrollToLanding() {
-    if (isScrolling) return;
-    isScrolling = true;
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000);
+    scrollToSection(landingSection);
   }
+
+  // Función para el scroll suave a la sección de tecnologías
+  function scrollToTechnologies() {
+    scrollToSection(technologiesSection);
+  }
+
+  // Configurar los enlaces del menú
+  document.querySelectorAll(".menu-item").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      const section = item.getAttribute("data-section");
+      switch (section) {
+        case "landing":
+          scrollToLanding();
+          break;
+        case "cv":
+          scrollToCV();
+          break;
+        case "technologies":
+          scrollToTechnologies();
+          break;
+      }
+    });
+  });
 
   // Detectar el scroll de la rueda del ratón
   window.addEventListener(
@@ -196,4 +239,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inicializar
   updateScrollIndicator();
   handleScrollIndicatorClick();
+
+  // Agregar el evento de scroll para actualizar los colores
+  window.addEventListener('scroll', updateMenuColors);
+
+  // Inicializar los colores del menú
+  updateMenuColors();
 });

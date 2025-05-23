@@ -13,6 +13,24 @@
     <link href="resources/css/cv.css" rel="stylesheet" />
   </head>
   <body>
+    <!-- Menú superior -->
+    <nav class="top-menu">
+      <div class="menu-container">
+        <a href="#" class="menu-item" data-section="landing">
+          <span data-lang="es">Inicio</span>
+          <span data-lang="en" style="display: none">Home</span>
+        </a>
+        <a href="#" class="menu-item" data-section="cv">
+          <span data-lang="es">Curriculum Vitae</span>
+          <span data-lang="en" style="display: none">Curriculum Vitae</span>
+        </a>
+        <a href="#" class="menu-item" data-section="technologies">
+          <span data-lang="es">Creación Web</span>
+          <span data-lang="en" style="display: none">Web Creation</span>
+        </a>
+      </div>
+    </nav>
+
     <!-- Selector de idioma -->
     <div class="language-switch" id="language-switch">
       <button
@@ -142,6 +160,64 @@
 
         <!-- CV Container -->
         <div id="cv-container" style="display: none"></div>
+      </div>
+    </div>
+
+    <!-- Technologies Section -->
+    <div id="technologies-section" class="technologies-section">
+      <div class="container">
+        <h2 class="section-title" data-lang="es">Tecnologías Utilizadas</h2>
+        <h2 class="section-title" data-lang="en" style="display: none">
+          Technologies Used
+        </h2>
+
+        <div class="technologies-grid">
+          <div class="tech-card">
+            <i class="fab fa-html5"></i>
+            <h3>HTML5</h3>
+            <p data-lang="es">Estructura y semántica web</p>
+            <p data-lang="en" style="display: none">
+              Web structure and semantics
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <i class="fab fa-css3-alt"></i>
+            <h3>CSS3</h3>
+            <p data-lang="es">Estilos y animaciones</p>
+            <p data-lang="en" style="display: none">Styles and animations</p>
+          </div>
+
+          <div class="tech-card">
+            <i class="fab fa-js"></i>
+            <h3>JavaScript</h3>
+            <p data-lang="es">Interactividad y funcionalidad</p>
+            <p data-lang="en" style="display: none">
+              Interactivity and functionality
+            </p>
+          </div>
+
+          <div class="tech-card">
+            <i class="fab fa-node-js"></i>
+            <h3>Node.js</h3>
+            <p data-lang="es">Backend y servidor</p>
+            <p data-lang="en" style="display: none">Backend and server</p>
+          </div>
+
+          <div class="tech-card">
+            <i class="fas fa-database"></i>
+            <h3>MongoDB</h3>
+            <p data-lang="es">Base de datos</p>
+            <p data-lang="en" style="display: none">Database</p>
+          </div>
+
+          <div class="tech-card">
+            <i class="fab fa-docker"></i>
+            <h3>Docker</h3>
+            <p data-lang="es">Contenedorización</p>
+            <p data-lang="en" style="display: none">Containerization</p>
+          </div>
+        </div>
       </div>
     </div>
 
