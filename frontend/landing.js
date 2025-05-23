@@ -1,40 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let isScrolling = false;
-  let currentSection = 0;
-  const sections = document.querySelectorAll(".landing-container, #cv-section");
-  const totalSections = sections.length;
+  const landingSection = document.querySelector(".landing-container");
+  const cvSection = document.getElementById("cv-section");
+  let isInLanding = true;
 
-  // Función para el scroll suave
-  function smoothScroll(targetSection) {
-    if (isScrolling) return;
-    isScrolling = true;
-
+  // Función para el scroll suave a la sección del CV
+  function scrollToCV() {
     window.scrollTo({
-      top: sections[targetSection].offsetTop,
+      top: cvSection.offsetTop,
       behavior: "smooth",
     });
+  }
 
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000); // Tiempo de la transición
+  // Función para el scroll suave a la landing
+  function scrollToLanding() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   // Detectar el scroll de la rueda del ratón
   window.addEventListener(
     "wheel",
     function (e) {
+      // Solo controlar el scroll en la landing page
+      if (!isInLanding) return;
+
       e.preventDefault();
 
-      if (isScrolling) return;
-
-      if (e.deltaY > 0 && currentSection < totalSections - 1) {
-        // Scroll hacia abajo
-        currentSection++;
-        smoothScroll(currentSection);
-      } else if (e.deltaY < 0 && currentSection > 0) {
-        // Scroll hacia arriba
-        currentSection--;
-        smoothScroll(currentSection);
+      if (e.deltaY > 0) {
+        // Scroll hacia abajo en landing -> ir al CV
+        isInLanding = false;
+        scrollToCV();
       }
     },
     { passive: false }
@@ -62,24 +59,65 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   function handleSwipe() {
-    if (isScrolling) return;
+    // Solo controlar el swipe en la landing page
+    if (!isInLanding) return;
 
     const swipeDistance = touchEndY - touchStartY;
     const minSwipeDistance = 50;
 
     if (Math.abs(swipeDistance) < minSwipeDistance) return;
 
-    if (swipeDistance > 0 && currentSection > 0) {
-      // Swipe hacia arriba
-      currentSection--;
-      smoothScroll(currentSection);
-    } else if (swipeDistance < 0 && currentSection < totalSections - 1) {
-      // Swipe hacia abajo
-      currentSection++;
-      smoothScroll(currentSection);
+    if (swipeDistance < 0) {
+      // Swipe hacia abajo en landing -> ir al CV
+      isInLanding = false;
+      scrollToCV();
     }
   }
 
-  // Prevenir el scroll por defecto
-  document.body.style.overflow = "hidden";
+  // Observar cambios en el scroll para actualizar el estado
+  window.addEventListener("scroll", function () {
+    if (window.scrollY <= 10) {
+      isInLanding = true;
+    }
+  });
+
+  // Agregar botón para volver arriba
+  const scrollToTopButton = document.createElement("button");
+  scrollToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  scrollToTopButton.className = "scroll-to-top";
+  scrollToTopButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1d1d1f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  `;
+  scrollToTopButton.addEventListener("mouseover", () => {
+    scrollToTopButton.style.opacity = "1";
+  });
+  scrollToTopButton.addEventListener("mouseout", () => {
+    scrollToTopButton.style.opacity = "0.8";
+  });
+  scrollToTopButton.addEventListener("click", scrollToLanding);
+  document.body.appendChild(scrollToTopButton);
+
+  // Mostrar/ocultar botón según el scroll
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 300) {
+      scrollToTopButton.style.display = "flex";
+    } else {
+      scrollToTopButton.style.display = "none";
+    }
+  });
 });
