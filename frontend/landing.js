@@ -2,27 +2,51 @@ document.addEventListener("DOMContentLoaded", function () {
   const landingSection = document.querySelector(".landing-container");
   const cvSection = document.getElementById("cv-section");
   let isInLanding = true;
+  let isScrolling = false;
 
   // Función para el scroll suave a la sección del CV
   function scrollToCV() {
+    if (isScrolling) return;
+    isScrolling = true;
     window.scrollTo({
       top: cvSection.offsetTop,
       behavior: "smooth",
     });
+    setTimeout(() => {
+      isScrolling = false;
+    }, 1000);
   }
 
   // Función para el scroll suave a la landing
   function scrollToLanding() {
+    if (isScrolling) return;
+    isScrolling = true;
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    setTimeout(() => {
+      isScrolling = false;
+    }, 1000);
   }
 
   // Detectar el scroll de la rueda del ratón
   window.addEventListener(
     "wheel",
     function (e) {
+      if (isScrolling) return;
+
+      // Si estamos en la parte superior del CV y scrolleamos hacia arriba
+      if (
+        !isInLanding &&
+        window.scrollY <= cvSection.offsetTop + 50 &&
+        e.deltaY < 0
+      ) {
+        e.preventDefault();
+        scrollToLanding();
+        return;
+      }
+
       // Solo controlar el scroll en la landing page
       if (!isInLanding) return;
 
@@ -59,6 +83,18 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   function handleSwipe() {
+    if (isScrolling) return;
+
+    // Si estamos en la parte superior del CV y hacemos swipe hacia arriba
+    if (
+      !isInLanding &&
+      window.scrollY <= cvSection.offsetTop + 50 &&
+      touchEndY > touchStartY
+    ) {
+      scrollToLanding();
+      return;
+    }
+
     // Solo controlar el swipe en la landing page
     if (!isInLanding) return;
 
@@ -120,4 +156,44 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollToTopButton.style.display = "none";
     }
   });
+
+  // Función para actualizar el indicador de scroll
+  function updateScrollIndicator() {
+    const scrollIndicator = document.querySelector(".scroll-indicator");
+    const scrollText = scrollIndicator.querySelector("span");
+    const scrollIcon = scrollIndicator.querySelector("i");
+
+    if (window.scrollY > landingSection.offsetHeight / 2) {
+      scrollText.textContent = "Scroll para volver arriba";
+      scrollIcon.className = "fas fa-chevron-up";
+      scrollIcon.style.animation = "bounceUp 2s infinite";
+    } else {
+      scrollText.textContent = "Scroll para ver mi CV";
+      scrollIcon.className = "fas fa-chevron-down";
+      scrollIcon.style.animation = "bounce 2s infinite";
+    }
+  }
+
+  // Función para manejar el clic en el indicador de scroll
+  function handleScrollIndicatorClick() {
+    const scrollIndicator = document.querySelector(".scroll-indicator");
+    scrollIndicator.addEventListener("click", () => {
+      if (window.scrollY > landingSection.offsetHeight / 2) {
+        // Si estamos en el CV, volver arriba
+        scrollToLanding();
+      } else {
+        // Si estamos en la landing, ir al CV
+        scrollToCV();
+      }
+    });
+  }
+
+  // Agregar los eventos
+  window.addEventListener("scroll", () => {
+    updateScrollIndicator();
+  });
+
+  // Inicializar
+  updateScrollIndicator();
+  handleScrollIndicatorClick();
 });
