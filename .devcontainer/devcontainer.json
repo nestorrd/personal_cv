@@ -1,0 +1,64 @@
+{
+    "name": "CV Web Application - Go + Frontend",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "ms-vscode.vscode-typescript-next",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode",
+                "ms-vscode.vscode-json",
+                "ritwickdey.liveserver",
+                "formulahendry.auto-rename-tag",
+                "christian-kohler.path-intellisense",
+                "humao.rest-client"
+            ],
+            "settings": {
+                "go.toolsManagement.checkForUpdates": "local",
+                "go.useLanguageServer": true,
+                "go.gopath": "/home/vscode/go",
+                "go.goroot": "/usr/local/go",
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "[go]": {
+                    "editor.defaultFormatter": "golang.go"
+                },
+                "files.autoSave": "afterDelay",
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "liveServer.settings.port": 3000,
+                "liveServer.settings.host": "0.0.0.0",
+                "liveServer.settings.donotShowInfoMsg": true,
+                "liveServer.settings.donotVerifyTags": true
+            }
+        }
+    },
+
+    "forwardPorts": [8080, 3000, 5500],
+    "portsAttributes": {
+        "8080": {
+            "label": "Go Backend API",
+            "onAutoForward": "notify"
+        },
+        "3000": {
+            "label": "Frontend Dev Server",
+            "onAutoForward": "openBrowser"
+        },
+        "5500": {
+            "label": "Live Server",
+            "onAutoForward": "openBrowser"
+        }
+    },
+
+    "postCreateCommand": "chmod +x .devcontainer/setup.sh && ./.devcontainer/setup.sh",
+    "postStartCommand": "echo '🚀 DevContainer listo para desarrollo!'",
+
+    "remoteUser": "vscode",
+    "containerUser": "vscode"
+}
