@@ -1,0 +1,260 @@
+const API_BASE_URL = "http://localhost:8080/api";
+let cvData = null;
+
+async function fetchCV() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/cv`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    cvData = await response.json();
+    renderCV(cvData);
+  } catch (error) {
+    console.error("Error fetching CV:", error);
+    showError();
+  }
+}
+
+function showError() {
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("error").style.display = "block";
+}
+
+function renderCV(data) {
+  const container = document.getElementById("cv-container");
+
+  const cvHTML = `
+    <div class="cv-card fade-in">
+      <div class="cv-header">
+        <img src="${data.personal.photo}" alt="${
+    data.personal.name
+  }" class="profile-photo">
+        <h1 class="name">${data.personal.name}</h1>
+        <h2 class="title">${data.personal.title}</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>${data.personal.email}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>${data.personal.phone}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${data.personal.location}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-linkedin"></i>
+            <span>${data.personal.linkedin}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-github"></i>
+            <span>${data.personal.github}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cv-content">
+        <div class="sidebar">
+          ${renderSkills(data.skills)}
+          ${renderLanguages(data.languages)}
+        </div>
+        
+        <div class="main-content">
+          ${renderSummary(data.personal.summary)}
+          ${renderExperience(data.experience)}
+          ${renderEducation(data.education)}
+          ${renderProjects(data.projects)}
+        </div>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = cvHTML;
+  document.getElementById("loading").style.display = "none";
+  container.style.display = "block";
+
+  // Animar barras de progreso después de un pequeño delay
+  setTimeout(() => {
+    const progressBars = document.querySelectorAll(".skill-progress");
+    progressBars.forEach((bar) => {
+      const width = bar.style.width;
+      bar.style.width = "0%";
+      setTimeout(() => {
+        bar.style.width = width;
+      }, 100);
+    });
+  }, 500);
+}
+
+function renderSummary(summary) {
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-user"></i> Resumen Profesional
+      </h3>
+      <div class="summary">${summary}</div>
+    </div>
+  `;
+}
+
+function renderExperience(experience) {
+  const experienceHTML = experience
+    .map(
+      (exp) => `
+        <div class="experience-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">${exp.position}</div>
+              <div class="item-company">${exp.company}</div>
+              <div class="item-location">
+                <i class="fas fa-map-marker-alt"></i> ${exp.location}
+              </div>
+            </div>
+            <div class="item-date">${exp.startDate} - ${exp.endDate}</div>
+          </div>
+          <div class="item-description">${exp.description}</div>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-briefcase"></i> Experiencia Profesional
+      </h3>
+      ${experienceHTML}
+    </div>
+  `;
+}
+
+function renderEducation(education) {
+  const educationHTML = education
+    .map(
+      (edu) => `
+        <div class="education-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">${edu.degree}</div>
+              <div class="item-company">${edu.institution}</div>
+              <div class="item-location">
+                <i class="fas fa-map-marker-alt"></i> ${edu.location}
+              </div>
+            </div>
+            <div class="item-date">${edu.year}</div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-graduation-cap"></i> Educación
+      </h3>
+      ${educationHTML}
+    </div>
+  `;
+}
+
+function renderProjects(projects) {
+  const projectsHTML = projects
+    .map(
+      (project) => `
+        <div class="project-item">
+          <div class="item-header">
+            <div>
+              <div class="item-title">${project.name}</div>
+              ${
+                project.url
+                  ? `<a href="${project.url}" target="_blank" class="project-link">
+                  <i class="fas fa-external-link-alt"></i> Ver proyecto
+                </a>`
+                  : ""
+              }
+            </div>
+          </div>
+          <div class="item-description">${project.description}</div>
+          <div class="technologies">
+            ${project.technologies
+              .map((tech) => `<span class="tech-tag">${tech}</span>`)
+              .join("")}
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-code"></i> Proyectos Destacados
+      </h3>
+      ${projectsHTML}
+    </div>
+  `;
+}
+
+function renderSkills(skills) {
+  const skillsHTML = skills
+    .map(
+      (skill) => `
+        <div class="skill-item">
+          <div class="skill-name">${skill.name}</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: ${
+              skill.level * 20
+            }%"></div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-cogs"></i> Habilidades Técnicas
+      </h3>
+      <div class="skills-grid">
+        ${skillsHTML}
+      </div>
+    </div>
+  `;
+}
+
+function renderLanguages(languages) {
+  const languagesHTML = languages
+    .map(
+      (lang) => `
+        <div class="skill-item">
+          <div class="skill-name">${lang.name}</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: ${
+              lang.level * 20
+            }%"></div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <div class="section">
+      <h3 class="section-title">
+        <i class="fas fa-language"></i> Idiomas
+      </h3>
+      <div class="skills-grid">
+        ${languagesHTML}
+      </div>
+    </div>
+  `;
+}
+
+// Inicializar la aplicación
+document.addEventListener("DOMContentLoaded", function () {
+  fetchCV();
+});
