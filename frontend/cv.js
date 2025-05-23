@@ -268,6 +268,7 @@ function renderCV(cvData) {
                 </h3>
                 <div class="skills-grid">
                   ${cvData.skills
+                    .sort((a, b) => (b.level || 0) - (a.level || 0))
                     .map(
                       (skill) => `
                     <div class="skill-item">
@@ -298,6 +299,7 @@ function renderCV(cvData) {
                 </h3>
                 <div class="languages-list">
                   ${cvData.languages
+                    .sort((a, b) => (b.level || 0) - (a.level || 0))
                     .map(
                       (lang) => `
                     <div class="language-item">
