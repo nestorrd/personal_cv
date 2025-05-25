@@ -24,7 +24,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         tree \
         htop \
         vim \
-        nano \
         sudo \
         lsof \
     && apt-get clean \
@@ -48,11 +47,7 @@ RUN go install -v golang.org/x/tools/gopls@latest \
 USER root
 RUN npm install -g \
     live-server \
-    http-server \
-    concurrently \
-    nodemon \
-    prettier \
-    eslint
+    http-server
 
 # Crear directorio de workspace
 RUN mkdir -p /workspace \
